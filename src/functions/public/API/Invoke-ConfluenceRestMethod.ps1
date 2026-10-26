@@ -170,7 +170,7 @@ function Invoke-ConfluenceRestMethod {
         
         # Requests are near rate limit or have surpassed the rate limit.
         # Atlassian documents several response headers, https://developer.atlassian.com/cloud/confluence/rate-limiting/#rate-limit-related-headers
-        if ([Convert]::ToBoolean($responseHeaders['X-RateLimit-NearLimit'])) {
+        if (($responseHeaders['X-RateLimit-NearLimit'] | Select-Object -First 1) -eq 'true') {
             # Less than 20% quota remains, wait 500ms pre-emptively
             Write-Debug 'Requests are close to rate-limiting. Sleeping for 500ms.'
             Start-Sleep -Milliseconds 500
