@@ -176,7 +176,7 @@ function Invoke-ConfluenceRestMethod {
             Start-Sleep -Milliseconds 500
         }
 
-        if ($statusCode -eq 429) {
+        while ($statusCode -eq 429) {
             Write-Debug "Requests have been throttled. Sleeping for $($responseHeaders['Retry-After']) seconds"
             
             # During testing, this header was always returned as an array
